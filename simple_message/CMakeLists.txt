@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 2.8.3)
 
 project(simple_message)
 
@@ -37,12 +37,19 @@ set(SRC_FILES src/byte_array.cpp
 	src/joint_traj_pt_full.cpp
 	src/joint_traj.cpp
 	src/robot_status.cpp
+	src/dynamic_joint_pt.cpp
+	src/dynamic_joint_state.cpp
+	src/dynamic_group_status.cpp
 
 	src/messages/joint_message.cpp
 	src/messages/joint_feedback_message.cpp
 	src/messages/joint_traj_pt_message.cpp
 	src/messages/joint_traj_pt_full_message.cpp
 	src/messages/robot_status_message.cpp
+	src/messages/dynamic_joint_pt_message.cpp
+	src/messages/dynamic_joint_state_message.cpp
+	src/messages/dynamic_group_status_message.cpp
+	src/messages/speed_ovr_message.cpp
 
 	src/simple_comms_fault_handler.cpp)
 					
@@ -102,7 +109,7 @@ target_link_libraries(simple_message ${catkin_LIBRARIES})
 add_dependencies(simple_message ${industrial_msgs_EXPORTED_TARGETS})
 
 catkin_add_gtest(utest ${UTEST_SRC_FILES})
-set_target_properties(utest PROPERTIES COMPILE_DEFINITIONS "TEST_PORT_BASE=51000")
+set_target_properties(utest PROPERTIES COMPILE_DEFINITIONS "TEST_PORT_BASE=11000")
 target_link_libraries(utest simple_message)
 
 # ALTERNATIVE LIBRARY (DIFFERENT ENDIAN)
@@ -112,7 +119,7 @@ target_link_libraries(simple_message_bswap ${catkin_LIBRARIES})
 add_dependencies(simple_message_bswap ${industrial_msgs_EXPORTED_TARGETS})
 
 catkin_add_gtest(utest_byte_swapping ${UTEST_SRC_FILES})
-set_target_properties(utest_byte_swapping PROPERTIES COMPILE_DEFINITIONS "TEST_PORT_BASE=52000")
+set_target_properties(utest_byte_swapping PROPERTIES COMPILE_DEFINITIONS "TEST_PORT_BASE=12000")
 target_link_libraries(utest_byte_swapping simple_message_bswap)
 
 # ALTERNATIVE LIBRARY (64-bit floats)
@@ -122,11 +129,11 @@ target_link_libraries(simple_message_float64 ${catkin_LIBRARIES})
 add_dependencies(simple_message_float64 ${industrial_msgs_EXPORTED_TARGETS})
 
 catkin_add_gtest(utest_float64 ${UTEST_SRC_FILES})
-set_target_properties(utest_float64 PROPERTIES COMPILE_DEFINITIONS "TEST_PORT_BASE=53000;FLOAT64")
+set_target_properties(utest_float64 PROPERTIES COMPILE_DEFINITIONS "TEST_PORT_BASE=13000;FLOAT64")
 target_link_libraries(utest_float64 simple_message_float64)
 
 catkin_add_gtest(utest_udp ${UTEST_SRC_FILES})
-set_target_properties(utest_udp PROPERTIES COMPILE_DEFINITIONS "TEST_PORT_BASE=55000;UDP_TEST")
+set_target_properties(utest_udp PROPERTIES COMPILE_DEFINITIONS "TEST_PORT_BASE=15000;UDP_TEST")
 target_link_libraries(utest_udp simple_message)
 
 install(

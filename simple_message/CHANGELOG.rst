@@ -2,28 +2,6 @@
 Changelog for package simple_message
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.5.1 (2017-01-15)
-------------------
-* Temporary fix, commented out disabled test to remove unstable build status
-* Changed test port numbers to unused range in linux.  utest_message now uses port range defined by macros (addresses failure to init server socket)
-* Amend to pull request `#153 <https://github.com/ros-industrial/industrial_core/issues/153>`_ (methods moved to TypedMessage)
-* robot_status: missing reply to SERVICE_REQUEST. Fix in robot_status_message and relay_handler.
-* simple_message: add doc to SpecialSeqValue enum members.
-* simple_message: fix SpecialSeqValue typo. Fix `#130 <https://github.com/ros-industrial/industrial_core/issues/130>`_.
-* Contributors: Alberto Marini, Shaun Edwards, gavanderhoorn
-
-0.5.0 (2016-02-22)
-------------------
-* Switch ByteArray to <deque> for internal buffer
-  - enables dynamic sizing, for larger messages
-  * up to INT_MAX, which is unadvised
-  - allows efficient data access at front/rear of msgs
-  - maintains same external API
-  * getRawDataPtr() is deprecated (not contiguous memory)
-  - bugFix: SimpleSocket::receiveBytes() buffer-size check
-  - update unit tests to handle ByteArray.MaxSize==INT_MAX
-* Contributors: Jeremy Zoss
-
 0.4.3 (2016-02-07)
 ------------------
 * No changes

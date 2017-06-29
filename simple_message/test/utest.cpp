@@ -488,8 +488,6 @@ spinFunc(void* arg)
   return NULL;
 }
 
-/*  Commenting out this test because build shows "unstable" with disabled tests
-// See https://github.com/ros-industrial/industrial_core/issues/149 for details
 TEST(DISABLED_MessageManagerSuite, tcp)
 {
   const int port = TEST_PORT_BASE + 201;
@@ -551,7 +549,6 @@ TEST(DISABLED_MessageManagerSuite, tcp)
 
   delete client;
 }
-*/
 
 // Run all the tests that were declared with TEST()
 int main(int argc, char **argv)
