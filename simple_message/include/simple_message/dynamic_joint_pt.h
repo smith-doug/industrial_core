@@ -571,6 +571,8 @@ public:
       return false;
 
     this->groups_.push_back(group);
+
+    return true;
   }
 
   /**
