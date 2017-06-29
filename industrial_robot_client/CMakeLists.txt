@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(industrial_robot_client)
 
+add_definitions(-std=c++11)
+
 find_package(catkin REQUIRED COMPONENTS roscpp std_msgs sensor_msgs 
   control_msgs trajectory_msgs simple_message actionlib_msgs actionlib 
   urdf industrial_msgs industrial_utils)
@@ -76,10 +78,10 @@ install(TARGETS ${PROJECT_NAME}_dummy DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATI
 #
 
 add_library(industrial_robot_client ${SRC_FILES})
-target_link_libraries(industrial_robot_client industrial_utils simple_message)
+target_link_libraries(industrial_robot_client simple_message)
 
 add_library(industrial_robot_client_bswap ${SRC_FILES})
-target_link_libraries(industrial_robot_client_bswap industrial_utils simple_message_bswap)
+target_link_libraries(industrial_robot_client_bswap simple_message_bswap)
 
 # The following executables(nodes) are for applications where the robot
 # controller and pc have the same byte order (i.e. byte swapping NOT
