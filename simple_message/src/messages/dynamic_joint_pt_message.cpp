@@ -130,6 +130,13 @@ bool DynamicJointPtMessage::unloadFront(ByteArray *buffer)
   return rtn;
 }
 
+void DynamicCartPtMessage::init()
+{
+  this->setMessageType(StandardMsgTypes::DYNAMIC_CART_PT);
+  this->point_.init();
+}
+
 }
 }
+
 

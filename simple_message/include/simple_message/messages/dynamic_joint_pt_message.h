@@ -125,6 +125,15 @@ private:
 
 };
 
+class DynamicCartPtMessage : public DynamicJointPtMessage
+{
+public:
+  DynamicCartPtMessage() { this->init(); }
+
+  void init();
+
+};
+
 }
 }
 

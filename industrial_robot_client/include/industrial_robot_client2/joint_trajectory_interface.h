@@ -45,6 +45,9 @@
 #include "simple_message/socket/tcp_client.h"
 #include "simple_message/messages/dynamic_joint_pt_message.h"
 #include "trajectory_msgs/JointTrajectory.h"
+#include "nav_msgs/Path.h"
+
+#include "industrial_msgs/CmdCartTrajectory.h"
 
 namespace industrial_robot_client2
 {
@@ -56,6 +59,7 @@ namespace joint_trajectory_interface
   using industrial::dynamic_joint_pt_message::DynamicJointPtMessage;
   namespace StandardSocketPorts = industrial::simple_socket::StandardSocketPorts;
   using industrial_utils::param::JointGroupMap;
+  using industrial::dynamic_joint_pt_message::DynamicCartPtMessage;
 
 /**
  * \brief Message handler that relays joint trajectories to the robot controller
@@ -136,6 +140,10 @@ protected:
   virtual bool trajectory_to_msgs(const std::string &ns, const trajectory_msgs::JointTrajectory &traj,
                                   std::vector<DynamicJointPtMessage> &msgs);
 
+  virtual bool cart_path_to_msgs(const std::string &ns, const nav_msgs::Path &path,
+                                    std::vector<DynamicCartPtMessage> &msgs);
+
+
   /**
    * \brief Check for "active" joint_map rules corresponding to the given trajectory
    *
@@ -188,6 +196,8 @@ protected:
    */
   virtual bool send_to_robot(const std::vector<DynamicJointPtMessage>& messages)=0;
 
+  //virtual bool send_to_robot(const std::vector<DynamicCartPtMessage>& messages)=0;
+
   /**
    * \brief Callback function to process a new joint trajectory
    *   Transform message into SimpleMessage objects and send commands to robot.
@@ -197,6 +207,11 @@ protected:
    */
   virtual bool jointTrajectoryCB(const std::string &ns,
                                  const trajectory_msgs::JointTrajectory &msg);
+
+
+  virtual bool cartTrajectoryCB(const std::string &ns,
+                                   const nav_msgs::Path &msg);
+
 
   /**
    * \brief Validate that trajectory command meets minimum requirements
@@ -215,6 +230,8 @@ protected:
    */
   virtual DynamicJointPtMessage create_message(int seq, std::vector<DynamicJointPtGrp> groups);
 
+  virtual DynamicCartPtMessage create_message_cart(int seq, std::vector<DynamicJointPtGrp> groups);
+
   /**
    * \brief ROS-interface handles for a single namespace
    */
@@ -223,6 +240,8 @@ protected:
     ros::Subscriber    sub_joint_trajectory;  // handle for joint-trajectory topic subscription
     ros::ServiceServer srv_joint_trajectory;  // handle for joint-trajectory service
     ros::ServiceServer srv_stop_motion;       // handle for stop_motion service
+
+    ros::ServiceServer srv_cart_trajectory;
   };
   
   TcpClient default_tcp_connection_;
@@ -247,6 +266,11 @@ private:
   bool svcCB_CmdJointTrajectory(const std::string &ns,
                                 industrial_msgs::CmdJointTrajectory::Request &req,
                                 industrial_msgs::CmdJointTrajectory::Response &res);
+
+
+  bool svcCB_CmdCartTrajectory(const std::string &ns,
+                                  industrial_msgs::CmdCartTrajectory::Request &req,
+                                  industrial_msgs::CmdCartTrajectory::Response &res);
 
   /**
    * \brief Callback function registered to ROS topic-subscribe.

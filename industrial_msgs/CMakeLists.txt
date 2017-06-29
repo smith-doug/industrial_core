@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(industrial_msgs)
 
-find_package(catkin REQUIRED COMPONENTS std_msgs trajectory_msgs genmsg message_generation)
+find_package(catkin REQUIRED COMPONENTS std_msgs trajectory_msgs genmsg nav_msgs message_generation )
 
 add_message_files(
   FILES
@@ -15,6 +15,7 @@ add_message_files(
 
 add_service_files(
   FILES
+  CmdCartTrajectory.srv
   CmdJointTrajectory.srv
   GetRobotInfo.srv
   SetDrivePower.srv
@@ -23,9 +24,9 @@ add_service_files(
   StopMotion.srv)
 
 generate_messages(
-  DEPENDENCIES trajectory_msgs std_msgs
+  DEPENDENCIES trajectory_msgs std_msgs nav_msgs
 )
 
 catkin_package(
-    CATKIN_DEPENDS message_runtime std_msgs trajectory_msgs genmsg
+    CATKIN_DEPENDS message_runtime std_msgs trajectory_msgs genmsg nav_msgs
 )

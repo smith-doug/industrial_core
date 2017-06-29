@@ -89,6 +89,8 @@ namespace StandardMsgTypes
  DYNAMIC_JOINT_STATE  = 65002,  // TODO - reassign as "std" msg
  DYNAMIC_GROUP_STATUS = 65003,  // TODO - reassign as "std" msg
  SPEED_OVR            = 65005,  // TODO - reassign as "std" msg
+
+ DYNAMIC_CART_PT      = 54345
  };
 }
 typedef StandardMsgTypes::StandardMsgType StandardMsgType;
