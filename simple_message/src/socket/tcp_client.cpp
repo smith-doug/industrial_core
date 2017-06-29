@@ -115,6 +115,28 @@ bool TcpClient::makeConnect()
       this->setConnected(true);
       rtn = true;
     }
+    else if(errno == EISCONN)
+    {
+      LOG_INFO("Socket gave EISCONN.  Recreating");
+      CLOSE(this->getSockHandle());
+      rc = SOCKET(AF_INET, SOCK_STREAM, 0);
+      if(rc != this->SOCKET_FAIL)
+      {
+        this->setSockHandle(rc);
+        // The set no delay disables the NAGEL algorithm
+        int disableNodeDelay = 1;
+        rc = SET_NO_DELAY(this->getSockHandle(), disableNodeDelay);
+        if (this->SOCKET_FAIL == rc)
+        {
+          LOG_WARN("Failed to set no socket delay, sending data can be delayed by up to 250ms");
+        }
+      }
+      else
+      {
+        LOG_ERROR("Failed to recreate socket");
+      }
+
+    }
     else
     {
       this->logSocketError("Failed to connect to server", rc, errno);
